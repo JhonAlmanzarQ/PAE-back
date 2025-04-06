@@ -1,7 +1,7 @@
 package com.example.GestionPae.config.filter;
 
+import com.example.GestionPae.dto.LoginRequestDTO;
 import io.jsonwebtoken.Jwts;
-import com.example.GestionPae.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.FilterChain;
@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -29,9 +31,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            LoginRequestDTO loginRequest = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDTO.class);
+
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword()));
         } catch (IOException e) {
             throw new RuntimeException("Error al autenticar usuario", e);
         }
@@ -53,6 +56,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .compact();
 
         response.addHeader(TokenJwtConfig.HEADER_AUTHORIZATION, TokenJwtConfig.PREFIX_TOKEN + token);
+
+        // Crear una respuesta JSON personalizada
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("message", "Usuario autenticado correctamente");
+        responseBody.put("username", user.getUsername());
+        responseBody.put("token", TokenJwtConfig.PREFIX_TOKEN + token);
+
+        // Escribir la respuesta
+        response.setContentType("application/json");
+        new ObjectMapper().writeValue(response.getWriter(), responseBody);
     }
 
 }

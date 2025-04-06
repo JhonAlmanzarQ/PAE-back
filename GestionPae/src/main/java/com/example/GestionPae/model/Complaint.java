@@ -24,7 +24,7 @@ public class Complaint {
 
     @ManyToOne
     @JoinColumn(name = "id_order", nullable = false)
-    private User order;
+    private OrderFood order;
 
     private String comment;
 

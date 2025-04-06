@@ -25,7 +25,7 @@ public class InventorySchool {
 
     @ManyToOne
     @JoinColumn(name = "id_food", nullable = false)
-    private User food;
+    private Food food;
 
     private Long quantity;
 

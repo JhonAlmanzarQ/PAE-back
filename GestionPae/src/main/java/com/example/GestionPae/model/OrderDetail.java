@@ -20,7 +20,7 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "id_order", nullable = false)
-    private User order;
+    private OrderFood order;
 
     @ManyToOne
     @JoinColumn(name = "id_food", nullable = false)

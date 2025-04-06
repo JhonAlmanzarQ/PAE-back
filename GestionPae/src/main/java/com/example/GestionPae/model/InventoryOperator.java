@@ -24,7 +24,7 @@ public class InventoryOperator {
 
     @ManyToOne
     @JoinColumn(name = "id_food", nullable = false)
-    private User food;
+    private Food food;
 
     private Long quantity;
 

@@ -7,7 +7,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,11 +16,9 @@ import java.io.IOException;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JwtValidationFilter extends OncePerRequestFilter {
-
-    public JwtValidationFilter(AuthenticationManager authManager) {
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -46,14 +43,16 @@ public class JwtValidationFilter extends OncePerRequestFilter {
                     .parseClaimsJws(token)
                     .getBody();
 
-            String username = claims.getSubject(); // el "sub" del token
-            List<String> roles = claims.get("roles", List.class);
+            String username = claims.getSubject(); // El "sub" del token
+
+            // 👇 Aquí adaptamos la extracción del campo "roles" como lista de mapas
+            List<Map<String, String>> roles = claims.get("roles", List.class);
 
             if (username != null) {
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 if (roles != null) {
-                    for (String role : roles) {
-                        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+                    for (Map<String, String> role : roles) {
+                        authorities.add(new SimpleGrantedAuthority(role.get("authority")));
                     }
                 }
 

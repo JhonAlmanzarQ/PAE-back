@@ -4,6 +4,7 @@ package com.example.GestionPae.service;
 import com.example.GestionPae.model.User;
 import com.example.GestionPae.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -22,6 +26,8 @@ public class UserService {
 
     //Crear Usuario
     public User createUser(User user) {
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
         return userRepository.save(user);
     }
 
@@ -33,9 +39,5 @@ public class UserService {
             throw new RuntimeException("Usuario no encontrado");
         }
     }
-
-
-
-
 
 }
