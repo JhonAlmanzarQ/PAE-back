@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,4 +31,6 @@ public class Complaint {
     private String comment;
 
     private String status; // pendiente / resuelta
+
+    private LocalDate creationDate;
 }

@@ -24,6 +24,8 @@ public class Student {
 
     private String name;
 
+    private String lastName;
+
     private String grade;
 
 }

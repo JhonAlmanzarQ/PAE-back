@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,6 +26,12 @@ public class Food {
     private User user;
 
     private String name;
+
+    private String description;
+
+    private String type;
+
+    private LocalDate expirationDate;
 
 
 }

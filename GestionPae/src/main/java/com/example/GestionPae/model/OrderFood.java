@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -30,6 +30,8 @@ public class OrderFood {
 
     private String status; // enviada / recibida / cancelada
 
-    private LocalDateTime creationDate;
+    private String deliveryDate;
+
+    private LocalDate creationDate;
 
 }
