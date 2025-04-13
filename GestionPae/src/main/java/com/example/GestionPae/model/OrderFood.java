@@ -32,6 +32,8 @@ public class OrderFood {
 
     private String deliveryDate;
 
+    private String comment;
+
     private LocalDate creationDate;
 
 }

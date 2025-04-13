@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -35,8 +36,8 @@ public class SpringSecurity {
                         .requestMatchers("/api/school/**").hasAuthority("USER_SCHOOL")
                         .anyRequest().authenticated()
                 )
-                .addFilter(jwtAuthenticationFilter) // 👈 Aquí agregas el filtro de login
-                .addFilterAfter(new JwtValidationFilter(), JwtAuthenticationFilter.class);
+                .addFilter(jwtAuthenticationFilter)
+                .addFilterBefore(new JwtValidationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
