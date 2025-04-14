@@ -34,10 +34,10 @@ public class OrderDetailController {
     }
 
     //Delete
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteOrderDetail(@RequestBody OrderDetail orderDetail) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteOrderDetail(@PathVariable Long id) {
         try {
-            orderDetailService.delteOrderDetail(orderDetail);
+            orderDetailService.delteOrderDetail(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

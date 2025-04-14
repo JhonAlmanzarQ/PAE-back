@@ -39,8 +39,8 @@ public class OrderFoodController {
         return orderFoodService.updateOrderFood(orderFood);
     }
 
-    //Delte Order Food
-    @DeleteMapping("/delete")
+    //Delete Order Food
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteFood(@PathVariable Long id) {
         try {
             orderFoodService.deleteOrderFood(id);

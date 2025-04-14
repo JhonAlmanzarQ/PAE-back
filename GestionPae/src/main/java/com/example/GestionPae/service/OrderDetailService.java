@@ -25,7 +25,7 @@ public class OrderDetailService {
 
     //List OrderDetail id
     public List<OrderDetail> listOrderDetails(Long id) {
-        return orderDetailRepository.findByOrderId(id);
+        return orderDetailRepository.findByOrder_IdOrder(id);
     }
 
     //Create OrderDetail
@@ -50,9 +50,9 @@ public class OrderDetailService {
     }
 
     //Delete OrderDetail
-    public void delteOrderDetail(OrderDetail orderDetail) {
-        if (orderDetailRepository.existsById(orderDetail.getIdOrderDetail())) {
-            orderDetailRepository.deleteById(orderDetail.getIdOrderDetail());
+    public void delteOrderDetail(Long id) {
+        if (orderDetailRepository.existsById(id)) {
+            orderDetailRepository.deleteById(id);
         } else {
             throw new RuntimeException("Detalle de Orden no encontrada");
         }
