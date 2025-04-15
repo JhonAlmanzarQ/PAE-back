@@ -62,6 +62,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         responseBody.put("message", "Usuario autenticado correctamente");
         responseBody.put("username", user.getUsername());
         responseBody.put("token", TokenJwtConfig.PREFIX_TOKEN + token);
+        responseBody.put("rol", user.getAuthorities().toString());
 
         // Escribir la respuesta
         response.setContentType("application/json");

@@ -1,15 +1,14 @@
 package com.example.GestionPae.repository;
 
-import com.example.GestionPae.model.OrderDetail;
+import com.example.GestionPae.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    List<OrderDetail> findByOrder_IdOrder(Long idOrder);
-
+    List<Student> findByUserIdUser(Long id);
 
 }

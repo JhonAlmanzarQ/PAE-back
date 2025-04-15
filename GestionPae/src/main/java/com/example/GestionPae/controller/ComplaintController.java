@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("queja")
+@RequestMapping("complaint")
 public class ComplaintController {
 
     @Autowired
     private ComplaintService complaintService;
 
     //List
-    @GetMapping("/list")
-    public List<Complaint> listComplaints() {
-        return complaintService.listComplaint();
+    @GetMapping("/list/{id}")
+    public List<Complaint> listComplaints(@PathVariable Long id) {
+        return complaintService.listComplaint(id);
     }
 
     //Create
@@ -35,6 +35,7 @@ public class ComplaintController {
     }
 
     //Delete
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteComplaint(@PathVariable Long id) {
         try {
             complaintService.deleteComplaint(id);

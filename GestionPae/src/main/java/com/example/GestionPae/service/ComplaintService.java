@@ -23,9 +23,9 @@ public class ComplaintService {
     @Autowired
     private OrderFoodRepository orderFoodRepository;
 
-    //List
-    public List<Complaint> listComplaint() {
-        return complaintRepository.findAll();
+    //List id school
+    public List<Complaint> listComplaint(Long id) {
+        return complaintRepository.findBySchool_IdUser(id);
     }
 
     //Create

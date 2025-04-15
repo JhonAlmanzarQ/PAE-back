@@ -1,7 +1,7 @@
 package com.example.GestionPae.repository;
 
 import com.example.GestionPae.model.Food;
-import com.example.GestionPae.model.InventoryOperator;
+import com.example.GestionPae.model.InventorySchool;
 import com.example.GestionPae.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,10 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface InventoryOperatorRepository extends JpaRepository<InventoryOperator, Long> {
+public interface InventorySchoolRepository extends JpaRepository<InventorySchool, Long> {
 
-    List<InventoryOperator> findByLogistics_IdUser(Long idUser);
+    List<InventorySchool> findBySchool_IdUser(Long idUser);
 
-    Optional<InventoryOperator> findByLogisticsAndFood(User logistics, Food food);
-
+    Optional<InventorySchool> findBySchoolAndFood(User school, Food food);
 }

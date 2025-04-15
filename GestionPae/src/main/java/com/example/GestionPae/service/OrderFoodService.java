@@ -1,5 +1,6 @@
 package com.example.GestionPae.service;
 
+import com.example.GestionPae.enums.Rol;
 import com.example.GestionPae.model.OrderFood;
 import com.example.GestionPae.model.User;
 import com.example.GestionPae.repository.OrderFoodRepository;
@@ -33,6 +34,14 @@ public class OrderFoodService {
     public OrderFood createOrderFood(OrderFood orderFood) {
         User logistics = userRepository.findById(orderFood.getLogistics().getIdUser()).orElseThrow(() -> new RuntimeException("Logistics no encontrado"));
         User school = userRepository.findById(orderFood.getSchool().getIdUser()).orElseThrow(() -> new RuntimeException("School no encontrado"));
+
+        if (logistics.getRol() != Rol.USER_LOGISTICS) {
+            throw new RuntimeException("El usuario asignado como logística no tiene el rol USER_LOGISTICS");
+        }
+
+        if (school.getRol() != Rol.USER_SCHOOL) {
+            throw new RuntimeException("El usuario asignado como escuela no tiene el rol USER_SCHOOL");
+        }
 
         orderFood.setLogistics(logistics);
         orderFood.setSchool(school);

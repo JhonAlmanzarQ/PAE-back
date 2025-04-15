@@ -28,7 +28,7 @@ public class StudentConsumption {
     @JoinColumn(name = "id_food", nullable = false)
     private Food food;
 
-    private int quantity;
+    private Long quantity;
 
     private LocalDate creationDate;
 }

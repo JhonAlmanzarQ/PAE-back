@@ -1,9 +1,8 @@
 package com.example.GestionPae.service;
 
-import com.example.GestionPae.model.Food;
-import com.example.GestionPae.model.OrderDetail;
-import com.example.GestionPae.model.OrderFood;
+import com.example.GestionPae.model.*;
 import com.example.GestionPae.repository.FoodRepository;
+import com.example.GestionPae.repository.InventoryOperatorRepository;
 import com.example.GestionPae.repository.OrderDetailRepository;
 import com.example.GestionPae.repository.OrderFoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class OrderDetailService {
     @Autowired
     private FoodRepository foodRepository;
 
+    @Autowired
+    private InventoryOperatorRepository inventoryOperatorRepository;
+
     //List OrderDetail id
     public List<OrderDetail> listOrderDetails(Long id) {
         return orderDetailRepository.findByOrder_IdOrder(id);
@@ -35,6 +37,18 @@ public class OrderDetailService {
 
         orderDetail.setOrder(orderFood);
         orderDetail.setFood(food);
+
+        //Update Inventory Operator
+        User logistics = orderFood.getLogistics();
+
+        InventoryOperator inventory = inventoryOperatorRepository.findByLogisticsAndFood(logistics, food).orElseThrow(() -> new RuntimeException("No hay inventario para el alimento con este operador logístico."));
+
+        Long requestQuantity = orderDetail.getQuantity();
+        if (inventory.getQuantity() < requestQuantity) {
+            throw new RuntimeException("Inventario insuficiente para " + food.getName() + ". Disponible: " + inventory.getQuantity());
+        }
+        inventory.setQuantity(inventory.getQuantity() - requestQuantity);
+        inventoryOperatorRepository.save(inventory);
 
         return orderDetailRepository.save(orderDetail);
     }

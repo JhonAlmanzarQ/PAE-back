@@ -4,36 +4,37 @@ import com.example.GestionPae.model.InventoryOperator;
 import com.example.GestionPae.service.InventoryOpertorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/inventariooperador")
+@RequestMapping("/inventaryoperator")
 public class InventoryOperatorController {
 
     @Autowired
     private InventoryOpertorService inventoryOpertorService;
 
     //List
-    public List<InventoryOperator> listInventoryOperator() {
-        return inventoryOpertorService.listInvetoryOperator();
+    @GetMapping("/list/{id}")
+    public List<InventoryOperator> listInventoryOperator(@PathVariable Long id) {
+        return inventoryOpertorService.listInvetoryOperator(id);
     }
 
     //Create
+    @PostMapping("/create")
     public InventoryOperator createInventoryOperator (@RequestBody InventoryOperator inventoryOperator) {
         return inventoryOpertorService.creteInventoryOperator(inventoryOperator);
     }
 
     //Update
+    @PutMapping("/update")
     public InventoryOperator updateInventoryOperator (@RequestBody InventoryOperator inventoryOperator) {
         return inventoryOpertorService.updateInventoryOperator(inventoryOperator);
     }
 
     //Delete
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteInventoryOperator (@PathVariable Long id) {
         try {
             inventoryOpertorService.deleteInventoryOperator(id);

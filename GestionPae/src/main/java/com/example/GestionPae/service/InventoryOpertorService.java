@@ -24,8 +24,8 @@ public class InventoryOpertorService {
     private FoodRepository foodRepository;
 
     //List
-    public List<InventoryOperator> listInvetoryOperator() {
-        return inventoryOperatorRepository.findAll();
+    public List<InventoryOperator> listInvetoryOperator(Long id) {
+        return inventoryOperatorRepository.findByLogistics_IdUser(id);
     }
 
     //Create
