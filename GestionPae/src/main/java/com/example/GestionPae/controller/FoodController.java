@@ -22,6 +22,14 @@ public class FoodController {
         return foodService.listFood(id);
     }
 
+    //search by name
+    @GetMapping("/listname/{name}")
+    public ResponseEntity<Food> listFoodName(@PathVariable String name) {
+        Optional<Food> food = foodService.searchFood(name);
+
+        return food.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     //Search Food
     @GetMapping("/search")
     public Optional<Food> listNameFood(String foodName) {
