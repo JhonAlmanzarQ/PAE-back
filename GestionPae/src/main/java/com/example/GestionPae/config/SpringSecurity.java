@@ -28,6 +28,8 @@ public class SpringSecurity {
         jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
 
         http
+                .cors() // Habilitar CORS
+                .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
@@ -38,7 +40,6 @@ public class SpringSecurity {
                 )
                 .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(new JwtValidationFilter(), UsernamePasswordAuthenticationFilter.class);
-
 
         return http.build();
     }
