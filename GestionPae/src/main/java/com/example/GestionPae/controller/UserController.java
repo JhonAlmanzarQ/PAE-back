@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -17,8 +18,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/list")
-    public List<User> getAllUsers(){
+    public List<User> listUsers(){
         return userService.listUser();
+    }
+
+    @GetMapping("/listname/{name}")
+    public List<User> searchUser(@PathVariable String name){
+        return userService.searchUser(name);
     }
 
     @PostMapping("/create")
