@@ -28,7 +28,7 @@ public class UserService {
 
     //search by name school
     public List<User> searchUser(String userName) {
-        return userRepository.findByNameContainingIgnoreCase(userName);
+        return userRepository.findByNameContainingIgnoreCaseAndRol(userName, Rol.USER_SCHOOL);
     }
 
     //Create
