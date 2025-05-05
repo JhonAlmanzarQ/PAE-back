@@ -1,5 +1,6 @@
 package com.example.GestionPae.service;
 
+import com.example.GestionPae.config.CustomUserDetails;
 import com.example.GestionPae.model.User;
 import com.example.GestionPae.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         User user = userRepository.findByName(name).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(
+        return new CustomUserDetails(
+                user.getIdUser(),
                 user.getName(),
                 user.getPassword(),
                 Collections.singletonList(

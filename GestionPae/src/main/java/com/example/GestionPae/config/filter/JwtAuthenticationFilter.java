@@ -1,5 +1,6 @@
 package com.example.GestionPae.config.filter;
 
+import com.example.GestionPae.config.CustomUserDetails;
 import com.example.GestionPae.dto.LoginRequestDTO;
 import io.jsonwebtoken.Jwts;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,7 +45,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
-        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authResult.getPrincipal();
+        CustomUserDetails user = (CustomUserDetails) authResult.getPrincipal();
+
 
 
         String token = Jwts.builder()
@@ -63,6 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         responseBody.put("username", user.getUsername());
         responseBody.put("token", TokenJwtConfig.PREFIX_TOKEN + token);
         responseBody.put("rol", user.getAuthorities().toString());
+        responseBody.put("id", String.valueOf(user.getId()));
 
         // Escribir la respuesta
         response.setContentType("application/json");
