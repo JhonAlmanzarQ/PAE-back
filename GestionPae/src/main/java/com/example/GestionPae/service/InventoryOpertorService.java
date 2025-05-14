@@ -44,6 +44,7 @@ public class InventoryOpertorService {
         return inventoryOperatorRepository.findById(newInventoryOperator.getIdInventoryOperator()).map(inventoryOperator -> {
             inventoryOperator.setFood(newInventoryOperator.getFood());
             inventoryOperator.setQuantity(newInventoryOperator.getQuantity());
+            inventoryOperator.setExpirationDate(newInventoryOperator.getExpirationDate());
 
             return inventoryOperatorRepository.save(inventoryOperator);
         }).orElseThrow(() -> new RuntimeException("Inventario de operador no encontrado"));

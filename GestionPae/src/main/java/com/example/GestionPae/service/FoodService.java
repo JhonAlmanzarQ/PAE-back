@@ -42,7 +42,6 @@ public class FoodService {
             food.setName(newFood.getName());
             food.setDescription(newFood.getDescription());
             food.setType(newFood.getType());
-            food.setExpirationDate(newFood.getExpirationDate());
 
             return foodRepository.save(food);
         }).orElseThrow(() -> new RuntimeException("Comida no encontrada para actualizar"));

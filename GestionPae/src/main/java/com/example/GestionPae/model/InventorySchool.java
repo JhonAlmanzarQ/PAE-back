@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,6 +28,8 @@ public class InventorySchool {
     @ManyToOne
     @JoinColumn(name = "id_food", nullable = false)
     private Food food;
+
+    private LocalDate expirationDate;
 
     private Long quantity;
 

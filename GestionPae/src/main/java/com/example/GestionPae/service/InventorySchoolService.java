@@ -44,6 +44,7 @@ public class InventorySchoolService {
         return inventorySchoolRepository.findById(newInventorySchool.getIdInventorySchool()).map(inventorySchool -> {
             inventorySchool.setFood(newInventorySchool.getFood());
             inventorySchool.setQuantity(newInventorySchool.getQuantity());
+            inventorySchool.setExpirationDate(newInventorySchool.getExpirationDate());
 
             return inventorySchoolRepository.save(inventorySchool);
         }).orElseThrow(() -> new RuntimeException("Inventario de Colegio no encontrado"));

@@ -31,7 +31,4 @@ public class Food {
 
     private String type;
 
-    private LocalDate expirationDate;
-
-
 }
