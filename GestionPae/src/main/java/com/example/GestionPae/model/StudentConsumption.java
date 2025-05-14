@@ -25,10 +25,9 @@ public class StudentConsumption {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "id_food", nullable = false)
-    private Food food;
-
-    private Long quantity;
+    @JoinColumn(name = "id_menu", nullable = false)
+    private Menu menu;
 
     private LocalDate creationDate;
+
 }

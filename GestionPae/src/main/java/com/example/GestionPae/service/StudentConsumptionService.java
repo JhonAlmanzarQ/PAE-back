@@ -1,13 +1,11 @@
 package com.example.GestionPae.service;
 
 import com.example.GestionPae.model.*;
-import com.example.GestionPae.repository.FoodRepository;
-import com.example.GestionPae.repository.InventorySchoolRepository;
-import com.example.GestionPae.repository.StudentConsumptionRepository;
-import com.example.GestionPae.repository.StudentRepository;
+import com.example.GestionPae.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,7 +18,7 @@ public class StudentConsumptionService {
     private StudentRepository studentRepository;
 
     @Autowired
-    private FoodRepository foodRepository;
+    private MenuRepository menuRepository;
 
     @Autowired
     private InventorySchoolRepository inventorySchoolRepository;
@@ -33,23 +31,26 @@ public class StudentConsumptionService {
     //Create
     public StudentConsumption createStudentConsumption(StudentConsumption studentConsumption) {
         Student student = studentRepository.findById(studentConsumption.getStudent().getIdStudent()).orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
-        Food food = foodRepository.findById(studentConsumption.getFood().getIdFood()).orElseThrow(() -> new RuntimeException("Comida no encontrada"));
+        Menu menu = menuRepository.findById(studentConsumption.getMenu().getIdMenu()).orElseThrow(() -> new RuntimeException("Menu no encontrado"));
 
         studentConsumption.setStudent(student);
-        studentConsumption.setFood(food);
+        studentConsumption.setMenu(menu);
+        studentConsumption.setCreationDate(LocalDate.now());
 
         //Update Inventory School
         User school = student.getUser();
 
-        InventorySchool inventorySchool = inventorySchoolRepository.findBySchoolAndFood(school, food).orElseThrow(() -> new RuntimeException("Inventario del colegio no encontrado para ese alimento"));
+        for (Food food : menu.getAlimentos()) {
+            InventorySchool inventory = inventorySchoolRepository.findBySchoolAndFood(school, food)
+                    .orElseThrow(() -> new RuntimeException("No hay inventario del colegio para el alimento: " + food.getName()));
 
-        Long requestQuantity = studentConsumption.getQuantity();
-        if (inventorySchool.getQuantity() < requestQuantity) {
-            throw new RuntimeException("Inventario Insuficiente");
+            if (inventory.getQuantity() < 1) {
+                throw new RuntimeException("Inventario insuficiente para el alimento: " + food.getName());
+            }
+
+            inventory.setQuantity(inventory.getQuantity() - 1);
+            inventorySchoolRepository.save(inventory);
         }
-
-        inventorySchool.setQuantity(inventorySchool.getQuantity() - requestQuantity);
-        inventorySchoolRepository.save(inventorySchool);
 
         return studentConsumptionRepository.save(studentConsumption);
     }
@@ -57,8 +58,7 @@ public class StudentConsumptionService {
     //Update
     public StudentConsumption updateStudentConsumption(StudentConsumption newStudentConsumption) {
         return studentConsumptionRepository.findById(newStudentConsumption.getIdStudentConsumption()).map(studentConsumption -> {
-            studentConsumption.setFood(newStudentConsumption.getFood());
-            studentConsumption.setQuantity(newStudentConsumption.getQuantity());
+            studentConsumption.setMenu(newStudentConsumption.getMenu());
             studentConsumption.setCreationDate(newStudentConsumption.getCreationDate());
 
             return studentConsumptionRepository.save(studentConsumption);
